@@ -40,10 +40,10 @@ function drawCircle(x, y, radius, color) {
 }
 
 function draw() {
-    drawRect(0, 0, canvas.width, canvas.height, 'black'); // Background
+    drawRect(0, 0, canvas.width, canvas.height, 'black'); 
     drawDivider(); // Moving Divider Line
-    drawRect(0, player1Y, paddleWidth, paddleHeight, 'white'); // Player 1 paddle
-    drawRect(canvas.width - paddleWidth, player2Y, paddleWidth, paddleHeight, 'white'); // Player 2 paddle
+    drawRect(0, player1Y, paddleWidth, paddleHeight, 'white'); 
+    drawRect(canvas.width - paddleWidth, player2Y, paddleWidth, paddleHeight, 'white'); 
     drawCircle(ballX, ballY, ballSize, 'white'); // Ball
 }
 
@@ -51,12 +51,12 @@ function moveBall() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
-    // Collision with top and bottom walls
+    // felső és alsó fallal való érintkezés
     if (ballY <= 0 || ballY >= canvas.height) {
         ballSpeedY = -ballSpeedY;
     }
 
-    // Collision with paddles
+    // ütőkkel való érintkezés
     if (
         (ballX <= paddleWidth && ballY > player1Y && ballY < player1Y + paddleHeight) ||
         (ballX >= canvas.width - paddleWidth && ballY > player2Y && ballY < player2Y + paddleHeight)
@@ -64,7 +64,7 @@ function moveBall() {
         ballSpeedX = -ballSpeedX;
     }
 
-    // Point for Player 2
+    //pontszerzés játékos 2
     if (ballX < 0) {
         player2Score++;
         updateScore();
@@ -72,7 +72,7 @@ function moveBall() {
         else resetBall();
     }
 
-    // Point for Player 1
+    // pontszerzés játékos 1
     if (ballX > canvas.width) {
         player1Score++;
         updateScore();
@@ -105,7 +105,7 @@ function endGame(winner) {
     updateWins();
 }
 
-// Game reset with "Play" button
+// play gombbal való indítás
 playButton.addEventListener('click', function () {
     if (!isPlaying) {
         isPlaying = true;
