@@ -23,8 +23,8 @@ let ballX, ballY, ballSpeedX, ballSpeedY;
 function resetBall() {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
-    ballSpeedX = Math.random() > 0.5 ? 4 : -4;
-    ballSpeedY = (Math.random() - 0.5) * 5;
+    ballSpeedX = Math.random() > 0.5 ? 9: 9;
+    ballSpeedY = (Math.random() - 0.5) * 6;
 }
 
 function drawRect(x, y, width, height, color) {
@@ -41,22 +41,27 @@ function drawCircle(x, y, radius, color) {
 
 function draw() {
     drawRect(0, 0, canvas.width, canvas.height, 'black'); 
-    drawDivider(); // Moving Divider Line
-    drawRect(0, player1Y, paddleWidth, paddleHeight, 'white'); 
-    drawRect(canvas.width - paddleWidth, player2Y, paddleWidth, paddleHeight, 'white'); 
-    drawCircle(ballX, ballY, ballSize, 'white'); // Ball
+    drawDivider(); 
+    drawRect(0, player1Y, paddleWidth, paddleHeight, 'red'); 
+    drawRect(canvas.width - paddleWidth, player2Y, paddleWidth, paddleHeight, 'blue'); 
+    drawCircle(ballX, ballY, ballSize, 'white'); 
 }
 
 function moveBall() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
 
-    // felső és alsó fallal való érintkezés
-    if (ballY <= 0 || ballY >= canvas.height) {
+    // Collision with top and bottom walls
+    if (ballY <= 0) {
         ballSpeedY = -ballSpeedY;
+        ballY = 0;
+    }
+    if (ballY >= canvas.height) {
+        ballSpeedY = -ballSpeedY;
+        ballY = canvas.height;
     }
 
-    // ütőkkel való érintkezés
+    // Collision with paddles
     if (
         (ballX <= paddleWidth && ballY > player1Y && ballY < player1Y + paddleHeight) ||
         (ballX >= canvas.width - paddleWidth && ballY > player2Y && ballY < player2Y + paddleHeight)
@@ -64,7 +69,7 @@ function moveBall() {
         ballSpeedX = -ballSpeedX;
     }
 
-    //pontszerzés játékos 2
+    // Point for Player 2
     if (ballX < 0) {
         player2Score++;
         updateScore();
@@ -72,7 +77,7 @@ function moveBall() {
         else resetBall();
     }
 
-    // pontszerzés játékos 1
+    // Point for Player 1
     if (ballX > canvas.width) {
         player1Score++;
         updateScore();
@@ -105,7 +110,7 @@ function endGame(winner) {
     updateWins();
 }
 
-// play gombbal való indítás
+// Play button event listener
 playButton.addEventListener('click', function () {
     if (!isPlaying) {
         isPlaying = true;
@@ -118,7 +123,7 @@ playButton.addEventListener('click', function () {
 });
 
 let dividerOffset = 0;
-const dividerSpeed = 2;
+const dividerSpeed = 1.5;
 
 function drawDivider() {
     ctx.fillStyle = 'white';
@@ -140,7 +145,7 @@ let player1Down = false;
 let player2Up = false;
 let player2Down = false;
 
-const paddleSpeed = 5;
+const paddleSpeed = 10;
 
 function movePaddles() {
     if (player1Up && player1Y > 0) {
